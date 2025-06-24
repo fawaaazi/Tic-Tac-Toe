@@ -1,10 +1,11 @@
+
 const GameBoard = (function (){
-    const gameBoard = [ ["" , "" , ""], ["" , "" , ""], ["" , "" , ""] ]
+    const gameBoard = [new Array(3), new Array(3), new Array(3)]
 
     const getGameBoard = () => gameBoard;
 
-    const placeMarker = (row, col, marker) =>{
-        gameBoard[row][col] = marker;
+    const placeMarker = (row, col, activeMarker) =>{
+        gameBoard[row][col] = activeMarker;
     }
     return{ getGameBoard, placeMarker }
 })();
@@ -14,31 +15,92 @@ function createPlayer(name , marker){
 }
 
 const GameControl = (function(){
+
     const board = GameBoard.getGameBoard();
 
     const player1 = createPlayer("fawas", "X");
     const player2 = createPlayer("someone", "O");
 
     let gameOver = false;
+    let activePlayer = player1; /*default player1*/
+    
 
     const checkWin = () => {
+        let activeMarker = activePlayer.marker
         const isWin = (
             /*horizontal wins*/
-            board[0][0] === board[0][1] &&  board[0][0] === board[0][2] &&  board[0][1] === board[0][2] ||
-            board[1][0] === board[1][1] &&  board[1][0] === board[1][2] &&  board[1][1] === board[1][2] ||
-            board[2][0] === board[2][1] &&  board[2][0] === board[2][2] &&  board[2][1] === board[2][2] ||
+            activeMarker === board[0][0] &&  activeMarker === board[0][1] &&  activeMarker === board[0][2] ||
+            activeMarker === board[1][0] &&  activeMarker === board[1][1] &&  activeMarker === board[1][2] ||
+            activeMarker === board[2][0] &&  activeMarker === board[2][1] &&  activeMarker === board[2][2] ||
 
             /*vertical wins*/
-            board[0][0] === board[1][0] &&  board[0][0] === board[2][0] &&  board[1][0] === board[2][0] ||
-            board[0][1] === board[1][1] &&  board[0][1] === board[2][1] &&  board[1][1] === board[2][1] ||
-            board[0][2] === board[1][2] &&  board[0][2] === board[2][2] &&  board[1][2] === board[2][2] ||
+            activeMarker === board[0][0] &&  activeMarker === board[1][0] &&  activeMarker === board[2][0] ||
+            activeMarker === board[0][1] &&  activeMarker === board[1][1] &&  activeMarker === board[2][1] ||
+            activeMarker === board[0][2] &&  activeMarker === board[1][2] &&  activeMarker === board[2][2] ||
 
             /*diagonal wins*/
-            board[0][0] === board[1][1] &&  board[0][0] === board[2][2] &&  board[1][1] === board[2][2] ||
-            board[0][2] === board[1][1] &&  board[0][2] === board[2][0] &&  board[1][1] === board[2][0]
+            activeMarker === board[1][1] &&  activeMarker === board[2][2] &&  activeMarker === board[2][2] ||
+            activeMarker === board[0][0] &&  activeMarker === board[1][1] &&  activeMarker === board[2][2] 
         );
         return isWin;
 
     }
 
+
+    const swapActivePlayer =() =>{
+        activePlayer == player1 ? activePlayer = player2 : activePlayer = player1
+    }
+
+    const checkDraw = () =>{
+        /*const flatGameBoard = board.flat() /*make the 2d game board to 1d 
+
+        return flatGameBoard.every(element => element !== undefined || element !== null);*/
+
+        for(let i=0; i < board.length; i++){
+            for(let j=0; j < board[i].length; j++){
+                if(board[i][j] !== undefined || board[i][j] !== null){
+                    return false
+                }
+            }
+            return true
+        }
+    }
+
+
+    const playRound = (row, col) =>{
+
+        if(gameOver){
+            console.log("Game over!")
+            return
+        }
+
+        GameBoard.placeMarker(row , col, activePlayer.marker)
+
+        if(checkWin()){
+            gameOver = true;
+            console.log({activePlayer}+"Won");
+            return
+        }
+
+        if(checkDraw()){
+            gameOver = true;
+            console.log("Draw");
+            return
+        }
+
+        swapActivePlayer()
+        console.log(GameBoard.getGameBoard())
+
+    }
+    const playGame = () =>{
+        for(let i = 0; i < 9; i++){
+            let row = Number.parseInt(prompt("enter Row: "+activePlayer.marker));
+            let col = Number.parseInt(prompt("Enter col: "+activePlayer.marker));
+            playRound(row, col)
+        }
+    }
+    return {
+        playGame
+    }
 })();
+
