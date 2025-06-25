@@ -1,1 +1,147 @@
+:root{
+    --font-family: "Rubik Glitch", system-ui;
+    --font-style: normal;
+    --title-color: rgb(255, 214, 102); /* warm golden-yellow */
+    /* Base colors */
+    --bg-color: rgb(20, 20, 20);
+    --cell-color:rgb(30,30,30);
+    --grid-line-color: rgb(60, 60, 60);
+    --text-color: rgb(230, 230, 230);
 
+    /* Player symbols */
+    --x-color: rgb(255, 87, 87);      /* red-ish */
+    --o-color: rgb(66, 135, 245);     /* blue-ish */
+
+    /* UI interaction */
+    --hover-color: rgb(60, 60, 60);   /* hover effect */
+    --win-highlight: rgb(255, 221, 89); /* yellow for win */
+
+    /* Buttons / UI elements */
+    --button-color: rgb(52, 199, 89);  /* green */
+
+    /* Optional shadows or borders */
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    --border-radius: 10px;
+}
+
+*{
+    font-family: var(--font-family);
+    font-style: var(--font-style);
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    min-height: 100vh;
+    color: var(--title-color);
+}
+
+.container{
+    background-color:var(--bg-color);
+    min-height: 100%;
+    padding: 25px;
+    padding-bottom: 35px;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-rows: 1fr 4fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.header{
+    grid-area: 1 / 1 / 2 / 4;
+    margin: auto;
+}
+
+.game-grid{
+    grid-area: 2 / 2 / 3 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.grid{
+    display: grid;
+    grid-template-columns: repeat(3,150px);
+    gap:5px var(--grid-line-color);
+}
+.cell{
+    width: 150px;
+    height: 150px;
+    background-color: var(--cell-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    color:var(--o-color) ;
+}
+
+/* APPLYING BORDERS TO CELLS TO CREATE THE TIC-TAC-TOE MATRIX */
+#cell-00 {
+    border-right: solid thick #fbf7f5;
+    border-bottom: solid thick #fbf7f5;
+}
+#cell-01 {
+    border-right: solid thick #fbf7f5;
+    border-bottom: solid thick #fbf7f5;
+    border-left: solid thick #fbf7f5;
+}
+#cell-02 {
+    border-left: solid thick #fbf7f5;
+    border-bottom: solid thick #fbf7f5;
+}
+#cell-10 {
+    border-top: solid thick #fbf7f5;
+    border-right: solid thick #fbf7f5;
+    border-bottom: solid thick #fbf7f5;
+}
+#cell-11 {
+    border: solid thick #fbf7f5;
+}
+#cell-12 {
+    border-left: solid thick #fbf7f5;
+    border-top: solid thick #fbf7f5;
+    border-bottom: solid thick #fbf7f5;
+}
+#cell-20 {
+    border-top: solid thick #fbf7f5;
+    border-right: solid thick #fbf7f5;
+}
+#cell-21 {
+    border-left: solid thick #fbf7f5;
+    border-top: solid thick #fbf7f5;
+    border-right: solid thick #fbf7f5;
+}
+#cell-22 {
+    border-left: solid thick #fbf7f5;
+    border-top: solid thick #fbf7f5;
+}
+/*applying hover effect on cells*/
+.cell:hover{
+    background-color: var(--hover-color);
+}
+.game-info{
+    grid-area: 2 / 3 / 3 / 4;
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    align-items: center;
+}
+#player1,#player2{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#game-btn{
+    display: flex;
+    gap: 10px;
+}
+
+#game-btn button{
+    width: 80px;
+    height: 45px;
+    background-color: var(--button-color);
+    color: var(--bg-color);
+}
