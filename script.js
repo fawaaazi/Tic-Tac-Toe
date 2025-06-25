@@ -29,26 +29,21 @@ const GameControl = (function(){
         let activeMarker = activePlayer.marker
         const isWin = (
             /*horizontal wins*/
-            activeMarker === board[0][0] &&  activeMarker === board[0][1] &&  activeMarker === board[0][2] ||
-            activeMarker === board[1][0] &&  activeMarker === board[1][1] &&  activeMarker === board[1][2] ||
-            activeMarker === board[2][0] &&  activeMarker === board[2][1] &&  activeMarker === board[2][2] ||
+            (activeMarker === board[0][0] &&  activeMarker === board[0][1] &&  activeMarker === board[0][2]) ||
+            (activeMarker === board[1][0] &&  activeMarker === board[1][1] &&  activeMarker === board[1][2]) ||
+            (activeMarker === board[2][0] &&  activeMarker === board[2][1] &&  activeMarker === board[2][2]) ||
 
             /*vertical wins*/
-            activeMarker === board[0][0] &&  activeMarker === board[1][0] &&  activeMarker === board[2][0] ||
-            activeMarker === board[0][1] &&  activeMarker === board[1][1] &&  activeMarker === board[2][1] ||
-            activeMarker === board[0][2] &&  activeMarker === board[1][2] &&  activeMarker === board[2][2] ||
+            (activeMarker === board[0][0] &&  activeMarker === board[1][0] &&  activeMarker === board[2][0]) ||
+            (activeMarker === board[0][1] &&  activeMarker === board[1][1] &&  activeMarker === board[2][1]) ||
+            (activeMarker === board[0][2] &&  activeMarker === board[1][2] &&  activeMarker === board[2][2]) ||
 
             /*diagonal wins*/
-            activeMarker === board[1][1] &&  activeMarker === board[2][2] &&  activeMarker === board[2][2] ||
-            activeMarker === board[0][0] &&  activeMarker === board[1][1] &&  activeMarker === board[2][2] 
+            (activeMarker === board[0][0] &&  activeMarker === board[1][1] &&  activeMarker === board[2][2]) ||
+            (activeMarker === board[0][2] &&  activeMarker === board[1][1] &&  activeMarker === board[2][0]) 
         );
         return isWin;
 
-    }
-
-
-    const swapActivePlayer =() =>{
-        activePlayer == player1 ? activePlayer = player2 : activePlayer = player1
     }
 
     const checkDraw = () =>{
@@ -58,27 +53,31 @@ const GameControl = (function(){
 
         for(let i=0; i < board.length; i++){
             for(let j=0; j < board[i].length; j++){
-                if(board[i][j] !== undefined || board[i][j] !== null){
-                    return false
+                if(board[i][j] === undefined || board[i][j] === null){
+                    return false;
                 }
-            }
-            return true
+            }  
         }
+        return true;
     }
 
+    const swapActivePlayer =() =>{
+
+            activePlayer == player1 ? activePlayer = player2 : activePlayer = player1
+    }
 
     const playRound = (row, col) =>{
-
+        console.log(activePlayer.name+":"+activePlayer.marker)
         if(gameOver){
             console.log("Game over!")
             return
         }
 
         GameBoard.placeMarker(row , col, activePlayer.marker)
-
+        console.log(GameBoard.getGameBoard())
         if(checkWin()){
             gameOver = true;
-            console.log({activePlayer}+"Won");
+            console.log(activePlayer.name+"Won");
             return
         }
 
@@ -89,18 +88,13 @@ const GameControl = (function(){
         }
 
         swapActivePlayer()
-        console.log(GameBoard.getGameBoard())
+        
 
     }
     const playGame = () =>{
-        for(let i = 0; i < 9; i++){
-            let row = Number.parseInt(prompt("enter Row: "+activePlayer.marker));
-            let col = Number.parseInt(prompt("Enter col: "+activePlayer.marker));
-            playRound(row, col)
-        }
+        playRound(row, col)
     }
     return {
         playGame
     }
 })();
-
