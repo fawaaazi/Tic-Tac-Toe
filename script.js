@@ -92,9 +92,11 @@ const GameControl = (function(){
         
 
     }
-    const playGame = () =>{
+
+    const playGame = (row, col) =>{
         playRound(row, col)
     }
+    
     return {
         playGame
     }
@@ -107,12 +109,12 @@ const controlUi = (function(){
 
     const placeMarkerInUi = (row, col, activeMarker) =>{
 
-        let cellId = "cell"+row+col  /*creating the id of selected cell */
-        
+        let cellId = "cell-"+row+col  /*creating the id of selected cell */
+        let activeCell;              /* variable for accessing the active cell */
         for(let i = 0; i < gameBoard.length; i++){
 
             if(gameBoard[i].id === cellId){
-                const activeCell = gameBoard[i]
+                 activeCell = gameBoard[i]
             }     
         }
         activeCell.textContent = activeMarker;
