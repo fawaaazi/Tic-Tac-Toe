@@ -69,6 +69,7 @@ const GameControl = (function(){
 
     const playRound = (row, col) =>{
         console.log(activePlayer.name+":"+activePlayer.marker)
+        
         if(gameOver){
             console.log("Game over!")
             return
@@ -76,6 +77,7 @@ const GameControl = (function(){
 
         GameBoard.placeMarker(row , col, activePlayer.marker)
         console.log(GameBoard.getGameBoard())
+        
         if(checkWin()){
             gameOver = true;
             console.log(activePlayer.name+"Won");
@@ -104,21 +106,39 @@ const GameControl = (function(){
 
 const controlUi = (function(){
     /*creating variables to access ui elements*/
+
     const gameBoard = document.getElementsByClassName("cell");
 
 
     const placeMarkerInUi = (row, col, activeMarker) =>{
-
         let cellId = "cell-"+row+col  /*creating the id of selected cell */
         let activeCell;              /* variable for accessing the active cell */
+
+
         for(let i = 0; i < gameBoard.length; i++){
 
             if(gameBoard[i].id === cellId){
                  activeCell = gameBoard[i]
             }     
         }
+
+
         activeCell.textContent = activeMarker;
+        activeCell.removeAttribute("onclick");
+    }
+    
+    const restartGameUi = () =>{
+        let i = 0;
+        for(let row = 0; row < 3; row++){
+            for(let col = 0; col < 3; col++){
+                gameBoard[i].textContent = ""
+                gameBoard[i].setAttribute("onclick",`GameControl.playGame(${row},${col})`)
+                i++
+                console.log(row)
+                console.log(col)
+            } 
+        }
     }
 
-    return{placeMarkerInUi}
+    return{placeMarkerInUi, restartGameUi}
 })();
