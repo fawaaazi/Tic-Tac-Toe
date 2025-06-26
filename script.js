@@ -12,7 +12,8 @@ const GameBoard = (function (){
 })();
 
 function createPlayer(name , marker){
-    return{name, marker}
+    let score = 0;
+    return{name, marker, score}
 }
 
 const GameControl = (function(){
@@ -81,6 +82,7 @@ const GameControl = (function(){
         if(checkWin()){
             gameOver = true;
             console.log(activePlayer.name+"Won");
+            activePlayer.score++
             return
         }
 
