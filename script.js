@@ -6,6 +6,7 @@ const GameBoard = (function (){
 
     const placeMarker = (row, col, activeMarker) =>{
         gameBoard[row][col] = activeMarker;
+        controlUi.placeMarkerInUi(row, col, activeMarker);
     }
     return{ getGameBoard, placeMarker }
 })();
@@ -97,4 +98,25 @@ const GameControl = (function(){
     return {
         playGame
     }
+})();
+
+const controlUi = (function(){
+    /*creating variables to access ui elements*/
+    const gameBoard = document.getElementsByClassName("cell");
+
+
+    const placeMarkerInUi = (row, col, activeMarker) =>{
+
+        let cellId = "cell"+row+col  /*creating the id of selected cell */
+        
+        for(let i = 0; i < gameBoard.length; i++){
+
+            if(gameBoard[i].id === cellId){
+                const activeCell = gameBoard[i]
+            }     
+        }
+        activeCell.textContent = activeMarker;
+    }
+
+    return{placeMarkerInUi}
 })();
