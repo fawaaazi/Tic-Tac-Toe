@@ -20,16 +20,23 @@ const GameBoard = (function (){
     return{ getGameBoard, placeMarker, restartGameBoard}
 })();
 
+
+
+
+
 function createPlayer(name , marker){
-    return{name, marker}
+    let score = 0;
+    return{name, marker, score}
 }
+
+
+
 
 const GameControl = (function(){
 
     const board = GameBoard.getGameBoard();
-
-    const player1 = createPlayer("fawas", "X");
-    const player2 = createPlayer("someone", "O");
+    const player1 = createPlayer("player-I", "X");
+    const player2 = createPlayer("player-II", "O");
 
     let gameOver = false;
     let activePlayer = player1; /*default player1*/
@@ -56,6 +63,7 @@ const GameControl = (function(){
 
     }
 
+
     const checkDraw = () =>{
         /*const flatGameBoard = board.flat() /*make the 2d game board to 1d 
 
@@ -71,9 +79,11 @@ const GameControl = (function(){
         return true;
     }
 
+
     const swapActivePlayer =() =>{
             activePlayer == player1 ? activePlayer = player2 : activePlayer = player1
     }
+
 
     const playRound = (row, col) =>{
         console.log(activePlayer.name+":"+activePlayer.marker)
@@ -88,7 +98,10 @@ const GameControl = (function(){
         
         if(checkWin()){
             gameOver = true;
+            activePlayer.score++
+            controlUi.getScoreDisplayUi(activePlayer.name).textContent = activePlayer.score
             controlUi.getWinnerPopup().showModal()
+            controlUi.setPopupStatus(activePlayer.name, "WIN")
             console.log(activePlayer.name+"Won");
             return
         }
@@ -97,33 +110,56 @@ const GameControl = (function(){
             gameOver = true;
             controlUi.getWinnerPopup().showModal()
             console.log("Draw");
+            controlUi.setPopupStatus(activePlayer.name, "DRAW")
             return
         }
 
         swapActivePlayer()
     }
 
+
+
     const restartGame = () =>{
         gameOver = false;
         controlUi.getWinnerPopup().close()
         controlUi.restartGameCellUi()
         GameBoard.restartGameBoard()
+        activePlayer = player1 /* changing the active player into default*/
     }
+
+
+    const resetScore = () =>{
+        player1.score = 0;
+        player2.score = 0;
+        controlUi.getScoreDisplayUi(player1.name).textContent = 0;
+        controlUi.getScoreDisplayUi(player2.name).textContent = 0;
+    }
+
 
     const playGame = (row, col) =>{
         playRound(row, col)
     }
     
+
+
     return {
-        playGame, restartGame
+        playGame,
+        restartGame,
+        resetScore
     }
 })();
 
+
+
+
+
+
+
 const controlUi = (function(){
     /*creating variables to access ui elements*/
-
     const gameBoard = document.getElementsByClassName("cell");
     const winnerPopup = document.getElementById("winner-popup");
+
 
     const placeMarkerInUi = (row, col, activeMarker) =>{
         let cellId = "cell-"+row+col  /*creating the id of selected cell */
@@ -137,11 +173,18 @@ const controlUi = (function(){
             }     
         }
 
-
         activeCell.textContent = activeMarker;
+        if(activeMarker === 'X'){
+            activeCell.style.color = "var(--x-color)"
+        }
+        if(activeMarker === 'O'){
+            activeCell.style.color = "var(--o-color)"
+        }
         activeCell.removeAttribute("onclick");
     }
     
+
+
     const restartGameCellUi = () =>{
         let i = 0;
         for(let row = 0; row < 3; row++){
@@ -155,10 +198,42 @@ const controlUi = (function(){
         }
     }
 
+
+    const getScoreDisplayUi = (name) =>{
+        const scoreDisplay = document.getElementById(name+"-score")
+        return scoreDisplay;
+    }
+
+
     const getWinnerPopup = () =>{
         return winnerPopup
     }
 
-    return{placeMarkerInUi, restartGameCellUi, getWinnerPopup}
+
+    const setPopupStatus = (name, status) =>{
+        const popupTitle = document.getElementById("popup-title");
+        const playerStatus = document.getElementById("player-status");
+        const gameStatus = document.getElementById("round-status");
+        if(status === "WIN"){
+            popupTitle.textContent = "GAME WON!!!";
+            playerStatus.textContent = name
+            gameStatus.textContent = "Won the round"
+        }
+
+        if( status === "DRAW"){
+            popupTitle.textContent = "GAME DRAW!!"
+            playerStatus.textContent = ""
+            gameStatus.textContent ="Round Draw"
+        }
+    }
+
+    
+    return{ 
+            placeMarkerInUi,
+            restartGameCellUi,
+            getWinnerPopup,
+            getScoreDisplayUi,
+            setPopupStatus
+        }
 })();
 

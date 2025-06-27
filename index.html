@@ -31,20 +31,20 @@
         <div class="game-info">
             <div id="player1">
                 <h2>Player-I (X)</h2>
-                <h2>Score:<span>0</span></h2>
+                <h2>Score:<span id="player-I-score">0</span></h2>
             </div>
             <div id="player2">
                 <h2>Player-II (O)</h2>
-                <h2>Score:<span>0</span></h2>
+                <h2>Score:<span id="player-II-score">0</span></h2>
             </div>
             <div id="game-btn">
-                <button>Start New Game</button>
-                <button>Reset Score</button>
+                <button onclick="GameControl.restartGame()">Start New Game</button>
+                <button onclick="GameControl.resetScore()">Reset Score</button>
             </div>
         </div>
         <dialog id="winner-popup">
                 <div class="popup-container">
-                         <h1 id="popup-title" >GAME WON!!</h1>
+                    <h1 id="popup-title" >GAME WON!!</h1>
                     <div class="game-status">
                         <h1 id="player-status">Player-I</h1>
                         <h1 id="round-status">Wins the round</h1>
