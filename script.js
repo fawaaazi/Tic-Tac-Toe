@@ -8,7 +8,16 @@ const GameBoard = (function (){
         gameBoard[row][col] = activeMarker;
         controlUi.placeMarkerInUi(row, col, activeMarker);
     }
-    return{ getGameBoard, placeMarker }
+
+    const restartGameBoard = () =>{
+        for(let i = 0; i < gameBoard.length; i++){
+            for(let j = 0; j < gameBoard[i].length; j++){
+                gameBoard[i][j] = undefined;
+            }
+        }
+    }
+
+    return{ getGameBoard, placeMarker, restartGameBoard}
 })();
 
 function createPlayer(name , marker){
@@ -63,7 +72,6 @@ const GameControl = (function(){
     }
 
     const swapActivePlayer =() =>{
-
             activePlayer == player1 ? activePlayer = player2 : activePlayer = player1
     }
 
@@ -80,19 +88,26 @@ const GameControl = (function(){
         
         if(checkWin()){
             gameOver = true;
+            controlUi.getWinnerPopup().showModal()
             console.log(activePlayer.name+"Won");
             return
         }
 
         if(checkDraw()){
             gameOver = true;
+            controlUi.getWinnerPopup().showModal()
             console.log("Draw");
             return
         }
 
         swapActivePlayer()
-        
+    }
 
+    const restartGame = () =>{
+        gameOver = false;
+        controlUi.getWinnerPopup().close()
+        controlUi.restartGameCellUi()
+        GameBoard.restartGameBoard()
     }
 
     const playGame = (row, col) =>{
@@ -100,7 +115,7 @@ const GameControl = (function(){
     }
     
     return {
-        playGame
+        playGame, restartGame
     }
 })();
 
@@ -127,7 +142,7 @@ const controlUi = (function(){
         activeCell.removeAttribute("onclick");
     }
     
-    const restartGameUi = () =>{
+    const restartGameCellUi = () =>{
         let i = 0;
         for(let row = 0; row < 3; row++){
             for(let col = 0; col < 3; col++){
@@ -144,7 +159,6 @@ const controlUi = (function(){
         return winnerPopup
     }
 
-    return{placeMarkerInUi, restartGameUi, getWinnerPopup}
+    return{placeMarkerInUi, restartGameCellUi, getWinnerPopup}
 })();
 
-controlUi.getWinnerPopup().showModal()

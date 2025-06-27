@@ -159,11 +159,6 @@ body{
     left: 37%;
     width: 350px;
     height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5px;
     color: var(--win-highlight);
     background-color: var(--bg-color);
 }
@@ -171,6 +166,14 @@ body{
 #winner-popup::backdrop{
     background-color: var(--bg-color);
     opacity: 60%;
+}
+
+.popup-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
 }
 #popup-title{
     padding: 30px;
