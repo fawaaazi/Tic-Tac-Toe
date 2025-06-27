@@ -38,6 +38,7 @@ body{
 }
 
 .container{
+    position: relative;
     background-color:var(--bg-color);
     min-height: 100%;
     padding: 25px;
@@ -146,6 +147,49 @@ body{
 }
 
 #game-btn button{
+    width: 80px;
+    height: 45px;
+    background-color: var(--button-color);
+    color: var(--bg-color);
+}
+
+#winner-popup{
+    position: absolute;
+    top: 35%;
+    left: 37%;
+    width: 350px;
+    height: 300px;
+    color: var(--win-highlight);
+    background-color: var(--bg-color);
+}
+
+#winner-popup::backdrop{
+    background-color: var(--bg-color);
+    opacity: 60%;
+}
+
+.popup-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+#popup-title{
+    padding: 30px;
+}
+
+.game-status{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.popup-btn-container{
+    padding: 30px;
+}
+
+#popup-btn{
     width: 80px;
     height: 45px;
     background-color: var(--button-color);

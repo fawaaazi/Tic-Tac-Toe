@@ -42,12 +42,20 @@
                 <button>Reset Score</button>
             </div>
         </div>
+        <dialog id="winner-popup">
+                <div class="popup-container">
+                         <h1 id="popup-title" >GAME WON!!</h1>
+                    <div class="game-status">
+                        <h1 id="player-status">Player-I</h1>
+                        <h1 id="round-status">Wins the round</h1>
+                    </div>
+                    <div class="popup-btn-container">
+                        <button id="popup-btn" onclick="GameControl.restartGame()">Continue</button>
+                    </div>
+                </div> 
+        </dialog>
     </div>
-    <dialog>
-        <div class="dialog-container">
-            <div></div>
-        </div>
-    </dialog>
+    
     <script src="script.js"></script>
 </body>
 </html>
