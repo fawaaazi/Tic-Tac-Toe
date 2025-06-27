@@ -108,7 +108,7 @@ const controlUi = (function(){
     /*creating variables to access ui elements*/
 
     const gameBoard = document.getElementsByClassName("cell");
-
+    const winnerPopup = document.getElementById("winner-popup");
 
     const placeMarkerInUi = (row, col, activeMarker) =>{
         let cellId = "cell-"+row+col  /*creating the id of selected cell */
@@ -140,5 +140,11 @@ const controlUi = (function(){
         }
     }
 
-    return{placeMarkerInUi, restartGameUi}
+    const getWinnerPopup = () =>{
+        return winnerPopup
+    }
+
+    return{placeMarkerInUi, restartGameUi, getWinnerPopup}
 })();
+
+controlUi.getWinnerPopup().showModal()
